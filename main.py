@@ -31,40 +31,20 @@ def enviar_mensaje_whatsapp(mensaje:str, destinatario: str = None):
 
 def contestar_usuario(mensaje_usuario):
     """Funcion que permite contestar al usuario con IA"""
-    llm = ChatOpenAI(
-        model="gpt-3.5-turbo",
-        api_key=os.environ["OPENAI_API_KEY"]
-    )
-    messages = [
-        SystemMessage(content="Eres un asistente personal util y amigable"),
-        HumanMessage(content=mensaje_usuario)
-    ]
-    response = llm.invoke(messages)
-    return response.content
-
-@app.post("/webhook-debug")
-async def debug_webhook(request: Request):
-    """Endpoint para ver TODOS los campos que envía Twilio"""
     try:
-        # Capturar todos los datos del formulario
-        form_data = await request.form()
-        
-        print("🔍 TODOS LOS CAMPOS DE TWILIO:")
-        print("=" * 50)
-        for key, value in form_data.items():
-            print(f"  {key}: {value}")
-        print("=" * 50)
-        
-        # También capturar headers
-        print("📋 HEADERS:")
-        for key, value in request.headers.items():
-            print(f"  {key}: {value}")
-        
-        return {"status": "debug_ok", "fields": dict(form_data)}
-        
-    except Exception as e:
-        print(f"❌ Error en debug: {e}")
-        return {"error": str(e)}
+       llm = ChatOpenAI(
+           model="gpt-3.5-turbo",
+           api_key=os.environ["OPENAI_API_KEY"],
+           streaming=True
+       )
+       messages = [
+           SystemMessage(content="Eres un asistente personal util y amigable"),
+           HumanMessage(content=mensaje_usuario)
+       ]
+       response = llm.invoke(messages)
+       return response.content
+    except Exception as ex:
+       print(f"Error en configuracion: {ex}")
 
 @app.post("/webhook")
 async def recibir_mesnae(
