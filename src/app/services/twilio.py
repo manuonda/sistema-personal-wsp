@@ -12,7 +12,7 @@ class TwilioService:
         self.phone_number = os.environ.get("TWILIO_PHONE_NUMBER")
         self.numero_destino = os.environ.get("YOUR_WHATSAPP_NUMBER")
         if not all([account_sid, auth_token]):
-          raise ValueError("Faltan las credenciasl de twilio")
+            raise ValueError("Faltan las credenciales de twilio")
        
         self.client = Client(account_sid, auth_token)
 
@@ -40,5 +40,5 @@ class TwilioService:
           
           return True
        except Exception as ex:
-           print(f"Error enviando mensaje: {ex}")
+           return False
        
