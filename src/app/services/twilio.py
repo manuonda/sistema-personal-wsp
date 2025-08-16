@@ -36,9 +36,9 @@ class TwilioService:
              to=to_number
           )
           
-          print(f"Mensaje enviado {message_obj.sid}")
+          print(f"Mensaje enviado {message_obj}")
           
-          return message_obj.message_id
+          return message_obj
        except Exception as ex:
            print(f"Error exception : {ex}")
            return ""

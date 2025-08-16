@@ -2,7 +2,7 @@
    de mensajes"""
 
 
-import datetime
+from datetime import datetime
 import json 
 import os
 from typing import TypedDict, Dict, Optional
@@ -18,7 +18,7 @@ class OpenAIProcesso:
             model="gpt-4o-mini",
             api_key= os.environ.get("OPENAI_API_KEY"),
             temperature=0.3,
-            max_tokens=500,
+            max_tokens=200,
             timeout=30
         )
         # self.context_builder = ContextBuilder()
@@ -33,17 +33,15 @@ class OpenAIProcesso:
          
         #crear prompts 
         prompt = self.create_analysis_prompt(message)
-         
-        #Enviar a OpenAI
-        # messages = [
-        #    SystemMessage(content="Eres un asistente personal util y amigable"),
-        #    HumanMessage(content=prompt)
-        # ]
         response = self.llm.invoke([
             {"role":"user", "content": prompt} 
-        ]) 
-       
-        return response
+        ])        
+        respuesta = ""
+        if response:
+           parsed_response = json.loads(response.content)
+           respuesta = parsed_response.get("respuesta","Disculpa no se pudo procesar tu mensaje")
+           
+        return respuesta
 
        except Exception as ex:
           print(f"Error : {ex}")
