@@ -35,6 +35,10 @@ class OpenAIProcesso:
         prompt = self.create_analysis_prompt(message)
          
         #Enviar a OpenAI
+        # messages = [
+        #    SystemMessage(content="Eres un asistente personal util y amigable"),
+        #    HumanMessage(content=prompt)
+        # ]
         response = self.llm.invoke([
             {"role":"user", "content": prompt} 
         ]) 

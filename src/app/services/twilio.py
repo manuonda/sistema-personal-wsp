@@ -17,7 +17,7 @@ class TwilioService:
         self.client = Client(account_sid, auth_token)
 
     
-    def send_message(self, message:str, to_number:str) -> bool:
+    def send_message(self, message:str, to_number:str) -> str:
        """ Funcion que permite enviar un mensaje al usuario por wsp 
           Args: 
             message(str): Mensaje a enviar 
@@ -38,7 +38,8 @@ class TwilioService:
           
           print(f"Mensaje enviado {message_obj.sid}")
           
-          return True
+          return message_obj.message_id
        except Exception as ex:
-           return False
+           print(f"Error exception : {ex}")
+           return ""
        
